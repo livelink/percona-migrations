@@ -13,6 +13,7 @@ module PerconaMigrations
 
       def run
         options = [
+          PerconaMigrations.pt_schema_tool_args,
           "--alter '#{@commands.join(', ')}'",
           "-h #{database_config['host']}",
           "-P #{database_config['port']}",
@@ -25,7 +26,7 @@ module PerconaMigrations
           options << "-p $PASSWORD"
         end
 
-        run_command(options.join(' '), { 'PASSWORD' => password })
+        run_command(options.reject(&:empty?).join(' '), { 'PASSWORD' => password })
       end
 
       private

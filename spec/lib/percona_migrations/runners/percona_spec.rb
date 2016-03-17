@@ -43,11 +43,12 @@ RSpec.describe PerconaMigrations::Runners::Percona do
 
     before do
       allow(PerconaMigrations).to receive(:database_config).and_return(db_config)
+      allow(PerconaMigrations).to receive(:pt_schema_tool_args).and_return('--foo')
       allow(subject).to receive(:percona_command).and_return(percona_command)
     end
 
     it 'runs percona command 2 times (dry-run and execute)' do
-      command = "#{percona_command} #{arguments.join(' ')}"
+      command = "#{percona_command} --foo #{arguments.join(' ')}"
 
       expect(runner).to receive(:system).
         with({ 'PASSWORD' => 'test' }, "#{command} --dry-run").
@@ -62,7 +63,7 @@ RSpec.describe PerconaMigrations::Runners::Percona do
 
     it 'throws an exception if dry-run fails' do
       expect(runner).to receive(:system).
-        with({ 'PASSWORD' => 'test' }, "#{percona_command} #{arguments.join(' ')} --dry-run").
+        with({ 'PASSWORD' => 'test' }, "#{percona_command} --foo #{arguments.join(' ')} --dry-run").
         and_return(false)
 
       expect { runner.run }.to raise_exception
