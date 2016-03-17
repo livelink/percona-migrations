@@ -4,10 +4,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'percona_migrations/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "percona-migrations"
+  spec.name          = "percona-migrations-livelink"
   spec.version       = PerconaMigrations::VERSION
-  spec.authors       = ["Sergey Varaksin"]
-  spec.email         = ["varaksin86@gmail.com"]
+  spec.authors       = ["Sergey Varaksin", "Geoff Youngs"]
+  spec.email         = ["varaksin86@gmail.com", "git@intersect-uk.co.uk"]
   spec.summary       = %q{Allows to use percona in rails migrations.}
   spec.homepage      = "https://github.com/svarks/percona-migrations"
   spec.license       = "MIT"
