@@ -70,4 +70,21 @@ RSpec.describe PerconaMigrations do
       end
     end
   end
+
+  describe '::pt_schema_tool_args' do
+    before do
+      subject.instance_eval { @config = @config.class.new }
+      subject.config do |c|
+        c.statistics = true
+        c.drop_old_table = false
+      end
+    end
+
+    it 'returns arguments, overriding any conflicting config settings' do
+      options = { drop_old_table: true, drop_new_table: false }
+      expect(subject.pt_schema_tool_args(options: options)).to eq(
+        '--no-drop-new-table --drop-old-table --statistics'
+      )
+    end
+  end
 end

@@ -5,9 +5,10 @@ module PerconaMigrations
         true
       end
 
-      def initialize(table_name, commands)
+      def initialize(table_name, commands, options: {})
         @table_name = table_name
         @commands = commands
+        @options = options
       end
 
       def run
