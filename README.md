@@ -48,6 +48,30 @@ class AddAddressToUsers < ActiveRecord::Migration
 end
 ```
 
+## Configuration
+
+Additional config can optionally be passed either in the initializer or in the migration itself
+
+### As a block in the initializer
+
+```ruby
+PerconaMigrations.config do |c|
+  c.drop_old_table = false
+  c.max_load       = 'Threads_running=60'
+end
+```
+
+### As a hash argument to the `percona_alter_table` command
+
+```ruby
+def up
+  commands = columns.map { |name, type| "ADD COLUMN #{name} #{type}" }
+  options = { drop_old_table: false, max_load: 'Threads_running=60' }
+
+  percona_alter_table :users, commands, options: options
+end
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/percona-migrations/fork )
