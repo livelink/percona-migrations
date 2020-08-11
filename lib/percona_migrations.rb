@@ -53,12 +53,10 @@ module PerconaMigrations
     end
   end
 
-  def pt_schema_tool_args
-
+  def pt_schema_tool_args(options: {})
     @config.members.map do |key|
-
+      val = options.key?(key) ? options[key] : config[key]
       arg = key.to_s.gsub(/_/,'-')
-      val = @config[key]
 
       case val
       when nil

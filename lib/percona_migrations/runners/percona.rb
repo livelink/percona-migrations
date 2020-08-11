@@ -12,8 +12,8 @@ module PerconaMigrations
       end
 
       def run
-        options = [
-          PerconaMigrations.pt_schema_tool_args,
+        params = [
+          PerconaMigrations.pt_schema_tool_args(options: @options),
           "--alter '#{@commands.join(', ')}'",
           "-h #{database_config['host']}",
           "-P #{database_config['port']}",
@@ -23,10 +23,10 @@ module PerconaMigrations
 
         password = database_config['password']
         if password && !password.empty?
-          options << "-p $PASSWORD"
+          params << "-p $PASSWORD"
         end
 
-        run_command(options.reject(&:empty?).join(' '), { 'PASSWORD' => password })
+        run_command(params.reject(&:empty?).join(' '), { 'PASSWORD' => password })
       end
 
       private
@@ -35,9 +35,9 @@ module PerconaMigrations
         PerconaMigrations.database_config
       end
 
-      def run_command(options, env_vars = {})
+      def run_command(params, env_vars = {})
         %w(dry-run execute).each do |mode|
-          cmd = "#{self.class.percona_command} #{options} --#{mode}"
+          cmd = "#{self.class.percona_command} #{params} --#{mode}"
 
           log "Running percona command: \"#{cmd}\""
 
