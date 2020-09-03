@@ -81,6 +81,13 @@ RSpec.describe PerconaMigrations do
     end
 
     it 'returns arguments, overriding any conflicting config settings' do
+      options = { drop_new_table: false }
+      expect(subject.pt_schema_tool_args(options: options)).to eq(
+        '--no-drop-new-table --no-drop-old-table --statistics'
+      )
+    end
+
+    it 'returns arguments, overriding any conflicting config settings' do
       options = { drop_old_table: true, drop_new_table: false }
       expect(subject.pt_schema_tool_args(options: options)).to eq(
         '--no-drop-new-table --drop-old-table --statistics'
